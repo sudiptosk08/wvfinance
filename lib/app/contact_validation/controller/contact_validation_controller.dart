@@ -15,7 +15,7 @@ class ContactValidationController extends GetxController {
     phoneNumber = Get.arguments?["phone_number"];
     userNumController.text = LocalStorage.getUserNumber();
     if (phoneNumber != null) {
-      // userNumController.text = phoneNumber!.own;
+      userNumController.text = phoneNumber!.own;
       guardianNumController.text = phoneNumber!.guardian;
       friendNumController.text = phoneNumber!.friend;
     }

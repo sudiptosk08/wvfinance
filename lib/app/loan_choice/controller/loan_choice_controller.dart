@@ -1,4 +1,4 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -102,6 +102,7 @@ class LoanChoiceController extends GetxController {
 
     if (isSaved) {
       Get.offAllNamed(Routes.navigationPage);
+      await getDashBoardInfo();
     }
     isLoading.value = false;
   }
@@ -154,14 +155,25 @@ class LoanChoiceController extends GetxController {
       DashBoardModel? response = DashBoardModel.fromJson(res);
       installments = res["data"]["installments"];
       dashBoardData = response.data;
-      agreement.value = response.data.agreement!;
-      print("Agreement ${agreement.value}");
-      LocalStorage.saveUserNumber(
-          userNumber: dashBoardData!.user.fullPhone.replaceFirst('+', ''));
-      LocalStorage.saveUserID(userID: dashBoardData!.user.userId);
-      LocalStorage.saveUserImage(userImage: dashBoardData!.user.image);
-      isLoading.value = false;
+      agreement.value = response.data.agreement ?? "";
+
+      if (dashBoardData != null) {
+        LocalStorage.saveUserNumber(
+            userNumber: dashBoardData!.user.fullPhone.replaceFirst('+', ''));
+        LocalStorage.saveUserID(userID: dashBoardData!.user.userId);
+        LocalStorage.saveUserImage(userImage: dashBoardData!.user.image);
+      } else {
+        // Handle the case where dashBoardData or its properties are null
+        print("Error: dashBoardData or its user property is null");
+        // Show an error message to the user if needed
+        ToastMessage.error("Failed to load user data.");
+      }
+    } else {
+      // Handle the case where the response is null
+      print("Error: API response is null");
+      ToastMessage.error("Failed to load dashboard data.");
     }
+    isLoading.value = false;
   }
 
   webView() {
@@ -177,14 +189,16 @@ class LoanChoiceController extends GetxController {
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://worldvisionbd.co/agreement?user_id=240608764&loan_id=39')) {
+            if (request.url.startsWith(
+                'https://worldvisionbd.co/agreement?user_id=240608764&loan_id=39')) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://worldvisionbd.co/agreement?user_id=240608764&loan_id=39'));
+      ..loadRequest(Uri.parse(
+          'https://worldvisionbd.co/agreement?user_id=240608764&loan_id=39'));
   }
 
   Future<void> requestLoanRoute() async {

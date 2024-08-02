@@ -56,6 +56,7 @@ class BankAccountValidationController extends GetxController {
 
     if (isUpdated) {
       Get.back<bool>(result: true);
+      
     }
     isLoading.value = false;
   }
