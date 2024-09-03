@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app/personal_info/controller/personal_info_controller.dart';
 import 'package:loan_app/app/widgets/custom_loading/custom_loading.dart';
+import 'package:loan_app/routes/routes.dart';
 import 'package:loan_app/utils/color/kcolors.dart';
 import 'package:loan_app/utils/lang/app_lang.dart';
 import 'package:loan_app/utils/text_utils/k_text_styles.dart';
@@ -19,6 +20,15 @@ class PersonalInfoPage extends GetView<PersonalInfoController> {
           Scaffold(
             appBar: AppBar(
               title: Text(appLang.personalInfo),
+              leading: IconButton(
+                  onPressed: () {
+                    Get.offAllNamed(Routes.navigationPage);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: KColors.white,
+                  )),
+              leadingWidth: 50,
             ),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

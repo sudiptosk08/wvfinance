@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:loan_app/app/loan_choice/controller/loan_choice_controller.dart';
+import 'package:loan_app/app/loan_choice/model/dashboard_model.dart';
 import 'package:loan_app/app/personal_info/api/personal_info_api.dart';
 import 'package:loan_app/app/personal_info/model/personal_info_model.dart';
 import 'package:loan_app/routes/routes.dart';
@@ -17,6 +19,7 @@ class PersonalInfoController extends GetxController {
   BankAccount? bankAccount;
   PhoneNumber? phoneNumber;
   Signature? signature;
+  DashBoardData? dashBoardData;
 
   Future<void> getPersonalInfo() async {
     isLoading.value = true;
@@ -29,6 +32,7 @@ class PersonalInfoController extends GetxController {
       bankAccount = response.data.bankAccount;
       phoneNumber = response.data.phoneNumber;
       signature = response.data.signature;
+      
     }
     isLoading.value = false;
   }
